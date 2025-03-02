@@ -12,11 +12,11 @@ class NewsRepository implements NewsRepositoryInterface
         $query = News::query();
 
         if (!empty($filters['category'])) {
-            $query->where('category', $filters['category']);
+            $query->whereFullText('category', $filters['category']);
         }
 
         if (!empty($filters['source'])) {
-            $query->whereFullText('source', $filters['source']);
+            $query->where('source', $filters['source']);
         }
 
         if (!empty($filters['author'])) {

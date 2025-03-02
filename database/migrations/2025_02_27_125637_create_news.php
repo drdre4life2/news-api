@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('title');
             $table->string('source')->index();
             $table->text('content');
-            $table->string('category')->index();
+            $table->string('category');
             $table->string('image_url')->nullable();
             $table->string('author')->nullable()->nullable();
             $table->string('url');
             $table->date('published_at')->index();
             $table->timestamps();
+            $table->fullText('category');
+
         });
     }
 

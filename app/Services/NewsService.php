@@ -16,7 +16,7 @@ class NewsService
 
     public function getNews(array $filters = []): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $cacheKey = 'news_' . md5(json_encode($filters));
+        $cacheKey = 'news_' . uniqid(json_encode($filters), true);
 
         return Cache::remember($cacheKey, now()->addMinutes(62), function () use ($filters) {
             return $this->newsRepository->getAll($filters);

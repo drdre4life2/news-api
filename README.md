@@ -1,67 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+#  News Aggregator
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
+This is a Laravel 12 application that aggregates news articles from multiple sources such as NewsAPI, The New York Times, and The Guardian. It fetches, stores, and serves news articles via API endpoints while supporting filtering, caching, and pagination.
 
-## About Laravel
+## Features
+- Fetches news from external APIs using queued jobs.
+- Stores news articles in a database.
+- Provides API endpoints for retrieving news.
+- Supports filtering by category, author, source, and full-text search.
+- Implements caching to optimize performance.
+- Scheduled commands for periodic news fetching.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prerequisites
+- PHP 8.3
+- Composer
+- Laravel 12
+- MySQL
+- Redis (for caching and queues)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Setup
+1. Clone the repository:
+   ```sh
+git clone  https://github.com/drdre4life2/news-api.git
+   cd news-aggregator
+   ```
+2. Install dependencies:
+   ```sh
+   composer install
+   ```
+3. Copy and configure environment variables:
+   ```sh
+   cp .env.example .env
+   ```
+   - Set your database credentials.
+   - Configure API keys for news sources.
 
-## Learning Laravel
+4. Generate application key:
+   ```sh
+   php artisan key:generate
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+5. Run migrations:
+   ```sh
+   php artisan migrate
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6. Queue setup:
+   ```sh
+   php artisan queue:work
+   ```
 
-## Laravel Sponsors
+7. Start the application:
+   ```sh
+   php artisan serve
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Usage
 
-### Premium Partners
+### Fetch News from External APIs
+To manually fetch news from external sources, run:
+```sh
+php artisan fetch-news
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### API Endpoints
+#### 1. Retrieve News
+```http
+GET /api/news
+```
+**Query Parameters:**
+- `category`: Filter by category
+- `author`: Filter by author
+- `source`: Filter by source
+- `date`: Pagination control
 
-## Contributing
+Example:
+```http
+GET /api/news?category=technology&author=John
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 2. Fetch News Manually
+```http
+POST /api/news/fetch
+```
+Triggers a background job to fetch news from external sources.
 
-## Code of Conduct
+## Caching Strategy
+- News data is cached for **61 minutes** to improve performance.
+- Cached results are based on filters applied.
+- To clear the cache manually, run:
+  ```sh
+  php artisan cache:clear
+  ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Scheduled Jobs
+The news fetching command runs automatically at scheduled intervals.
+Edit `routes/console.php` to customize the schedule:
 
-## Security Vulnerabilities
+Run the scheduler with:
+```sh
+php artisan schedule:work
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Testing
+To run unit and feature tests:
+```sh
+php artisan test
+```
 
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# news-api
