@@ -22,9 +22,9 @@ This is a Laravel 12 application that aggregates news articles from multiple sou
 
 ### Setup
 1. Clone the repository:
-   ```sh
-git clone  https://github.com/drdre4life2/news-api.git
-   cd news-aggregator
+ ```sh
+   git clone https://github.com/drdre4life2/news-api.git
+   cd news-api
    ```
 2. Install dependencies:
    ```sh
