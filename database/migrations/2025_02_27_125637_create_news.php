@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->string('author')->nullable()->nullable();
             $table->string('url');
-            $table->date('published_at')->index();
+            $table->timestamp('published_at')->index();
             $table->timestamps();
             $table->fullText('category');
 

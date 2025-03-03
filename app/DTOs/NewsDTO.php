@@ -47,7 +47,7 @@ class NewsDTO
     {
         return $data['subsection_name']
             ?? $data['sectionName']
-            ?? 'General';
+            ?? 'Uncategorized';
     }
 
     private function extractPublishedAt(array $data): string
@@ -55,7 +55,7 @@ class NewsDTO
         $date = $data['webPublicationDate']
             ?? $data['pub_date']
             ?? $data['publishedAt']
-            ?? null;
+            ?? '';
 
         return $date ? Carbon::parse($date)->format('Y-m-d H:i:s') : Carbon::now()->format('Y-m-d H:i:s');
     }
@@ -82,8 +82,7 @@ class NewsDTO
             'guardian' => null,
             'newsapi' => fn($data) => $data['urlToImage'] ?? '',
         ];
-Log::info($source);
-        return isset($extractors[$source]) ? $extractors[$source]($data) : '';
+        return isset($extractors[$source]) ? $extractors[$source]($data) : ' ';
     }
 
 
@@ -98,7 +97,7 @@ Log::info($source);
                 }
             }
         }
-        return $imageUrl;
+        return $imageUrl?? '';
 
     }
 }
