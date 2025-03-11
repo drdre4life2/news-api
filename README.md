@@ -89,21 +89,12 @@ POST /api/news/fetch
 Triggers a background job to fetch news from external sources.
 
 ## Caching Strategy
-- News data is cached for **61 minutes** to improve performance.
+- News data is cached for **62 minutes** to improve performance.
 - Cached results are based on filters applied.
 - To clear the cache manually, run:
   ```sh
   php artisan cache:clear
   ```
-
-## Scheduled Jobs
-The news fetching command runs automatically at scheduled intervals.
-Edit `routes/console.php` to customize the schedule:
-
-Run the scheduler with:
-```sh
-php artisan schedule:work
-```
 
 ## Testing
 To run unit and feature tests:
